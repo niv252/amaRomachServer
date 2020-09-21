@@ -4,13 +4,29 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "tsc": "tsc",
-		"start": "npm run tsc && node dist/index.js",
+    "tsc": "tsc --skipLibCheck",
+    "start": "npm run tsc && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "typescript": "^3.9.7"
+    "@types/joi": "^14.3.4",
+    "@types/koa": "^2.11.3",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-router": "^7.4.1",
+    "@types/mongoose": "^5.7.35",
+    "@types/nconf": "^0.10.0",
+    "@types/winston": "^2.4.4",
+    "joi": "^17.2.0",
+    "joi-objectid": "^3.0.1",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-respond": "^2.1.0",
+    "koa-router": "^9.1.0",
+    "mongoose": "^5.9.27",
+    "nconf": "^0.10.0",
+    "typescript": "^3.9.7",
+    "winston": "^3.3.3"
   }
 }
