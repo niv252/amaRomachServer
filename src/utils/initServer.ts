@@ -30,14 +30,18 @@ export class AmaRomachServer {
     }
 
     private initDBConnection() {
-        const mongoConfig = nconf.get("db");
-        mongoose.connect(mongoConfig.uri, mongoConfig.options).then(() => logger.info(`connected to db!`)).catch(err => {
-             logger.error(`error while connecting to db. error: `, err);
-             setTimeout(() => this.initDBConnection() , 500);
-        });
+        this.connectDB();
         mongoose.connection.on('disconnected', () => {
             logger.error(`db disconnected`);
-            setTimeout(() => this.initDBConnection() , 500);
+            setTimeout(() => this.connectDB() , 500);
         });
+    }
+
+    private connectDB() {
+        const mongoConfig = nconf.get("db");
+        mongoose.connect(mongoConfig.uri, mongoConfig.options).then(() => logger.info(`connected to db!`)).catch(err => {
+            logger.error(`error while connecting to db. error: `, err);
+            setTimeout(() => this.connectDB() , 500);
+       });
     }
 }

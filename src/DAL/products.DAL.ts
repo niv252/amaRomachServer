@@ -2,57 +2,41 @@ import Product, { IProduct } from "../models/product.model";
 import { startSession } from "mongoose";
 import { logger } from "../logger/logger";
 
-export class ProductsDAL {
-    
-    getAllProducts(): Promise<IProduct[]> {
-        return Product.find().then((products: IProduct[]) => {
-            return products;
-        });
-    }
+export function findAllProducts(): Promise<IProduct[]> {
+    return Product.find().exec();
+}
 
-    getProductById(id: string): Promise<IProduct> {
-        return Product.findById(id).then((product: IProduct) => {
-            return product;
-        });
-    }
+export function findProductById(id: string): Promise<IProduct> {
+    return Product.findById(id).exec();
+}
 
-    saveProduct(product: IProduct): Promise<IProduct> {
-        return new Product(product).save().then((product: IProduct) => {
-            return product;
-        });
-    }
+export function saveProduct(product: IProduct): Promise<IProduct> {
+    return new Product(product).save();
+}
 
-    updateProduct(product: IProduct): Promise<IProduct> {
-        return Product.findByIdAndUpdate(product._id, product).then((product: IProduct) => {
-            return product;
-        });    
-    }
+export function findAndUpdateProduct(product: IProduct): Promise<IProduct> {
+    return Product.findByIdAndUpdate(product._id, product, {new: true}).exec();    
+}
 
-    deleteProduct(id: string): Promise<IProduct> {
-        return Product.findByIdAndRemove(id).then((product: IProduct) => {
-            return product;
-        });
-    }
+export function removeProduct(id: string): Promise<IProduct> {
+    return Product.findByIdAndRemove(id).exec();
+}
 
-    async saveProducts(products: IProduct[]): Promise<IProduct[]> {
-        const session = await startSession();
-        session.startTransaction();
-        let savedProducts: IProduct[] = [];
-        try {
-            await Promise.all(products.map(async (product) => {
-                await new Product(product).save().then((product: IProduct) => {
-                    savedProducts.push(product);
-                });
-            }));
-            await session.commitTransaction();
-            session.endSession();
-            return Promise.resolve(savedProducts);
-        }
-        catch(error) {
-            logger.error(`error while creatingProducts! aborting transaction!!!. error: `, error);
-            await session.abortTransaction();
-            session.endSession();
-            throw new Error(error);
-        }
+export async function saveProducts(products: IProduct[]): Promise<IProduct[]> {
+    const session = await startSession();
+    session.startTransaction();
+    try {
+        let savedProducts = await Promise.all(products.map((product) => 
+            new Product(product).save()
+        ));
+        await session.commitTransaction();
+        session.endSession();
+        return Promise.resolve(savedProducts);
+    }
+    catch(error) {
+        logger.error(`error while creatingProducts! aborting transaction!!!. error: `, error);
+        await session.abortTransaction();
+        session.endSession();
+        throw new Error(error);
     }
 }
