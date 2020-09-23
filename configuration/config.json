@@ -8,5 +8,8 @@
             "useFindAndModify": false,
             "serverSelectionTimeoutMS": 10000
         }
+    },
+    "logger": {
+        "logLevel": "info"
     }
 }

@@ -1,54 +1,12 @@
-const Joi = require('joi');
-Joi.objectId = require('joi-objectid')(Joi);
+import { Schema, model } from 'mongoose';
+import { ProductDocument } from '../models/product.model';
 
-//Joi keys or extend json? i did with extended json and i think its elegant. hope its ok :)
-const productBaseSchema = {
-    name: Joi.string()
-    .alphanum()
-    .min(3)
-    .max(30)
-    .required(),
+export const ProductSchema: Schema = new Schema({
+    name: {type: String, required: true},
+    description: {type: String, required: true},
+    price: {type: Number, required: true},
+    image: {type: String, required: true},
+    limit: {type: Number}
+}, { versionKey: false });
 
-    description: Joi.string()
-        .min(3)
-        .max(200)
-        .required(),
-
-    price: Joi.number()
-        .integer()
-        .min(0)
-        .required(),
-
-    image: Joi.string()
-        .required(),
-
-    limit: Joi.number()
-        .integer()
-        .min(0)
-}
-
-const productIdSchema = {
-    _id: Joi.objectId()
-    .required()
-}
-
-export const productCreateSchema = Joi.object({
-   ...productBaseSchema
-});
-
-export const productUpdateSchema = Joi.object({
-    ...productBaseSchema,
-    ...productIdSchema
-});
-
-export const productDeleteSchema = Joi.object({
-    ...productIdSchema
-});
-
-export const productsCreateSchema = Joi.array().items(Joi.object({
-    ...productBaseSchema
-})).min(1);
-
-export const productGetSchema = Joi.object({
-    ...productIdSchema
-});
+export const Product = model<ProductDocument>('Product', ProductSchema);

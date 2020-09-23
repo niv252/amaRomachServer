@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "tsc": "tsc --skipLibCheck",
-    "start": "npm run tsc && node dist/index.js",
+    "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -29,6 +29,7 @@
     "@types/koa-router": "^7.4.1",
     "@types/mongoose": "^5.7.35",
     "@types/nconf": "^0.10.0",
-    "@types/winston": "^2.4.4"
+    "@types/winston": "^2.4.4",
+    "ts-node": "^9.0.0"
   }
 }
