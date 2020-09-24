@@ -31,28 +31,24 @@ const productIdSchema = Joi.objectId().required();
 const productsSchema = Joi.array().items(productSchema).min(1);
 
 export const validateProduct = async (ctx, next) => {
-    let validatedProduct = productSchema.validate(ctx.request.body);
-    if(validatedProduct.error) {
-        ctx.badRequest(validatedProduct.error.message);
-        throw new Error(validatedProduct.error);
-    }
-    await next();
+    await validate(ctx, next, productSchema, ctx.request.body);
+
 };
 
 export const validateProductId = async (ctx, next) => {
-    let validatedProductId = productIdSchema.validate(ctx.params._id);
-    if(validatedProductId.error) {
-        ctx.badRequest(validatedProductId.error.message);
-        throw new Error(validatedProductId.error);
-    }
-    await next();
+    await validate(ctx, next, productIdSchema, ctx.params._id);
 }
 
 export const validateProducts = async (ctx, next) => {
-    let validatedProducts = productsSchema.validate(ctx.request.body);
-    if(validatedProducts.error) {
-        ctx.badRequest(validatedProducts.error.message);
-        throw new Error(validatedProducts.error);
+    await validate(ctx, next, productsSchema, ctx.request.body);
+};
+
+const validate = async (ctx, next, schema, data) => {
+    let validated = schema.validate(data);
+    if(validated.error) {
+        ctx.badRequest(validated.error.message);
+        throw new Error(validated.error);
     }
+    
     await next();
-}; 
+}

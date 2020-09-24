@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { ProductDocument } from '../models/product.model';
+import { Product } from '../models/product.model';
 
 export const ProductSchema: Schema = new Schema({
     name: {type: String, required: true},
@@ -9,4 +9,4 @@ export const ProductSchema: Schema = new Schema({
     limit: {type: Number}
 }, { versionKey: false });
 
-export const Product = model<ProductDocument>('Product', ProductSchema);
+export const ProductModel = model<Product>('Product', ProductSchema);

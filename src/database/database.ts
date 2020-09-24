@@ -12,7 +12,7 @@ export const initDBConnection = () => {
         logger.info(`db reconnnected!`);
     });
     mongoose.connection.on('connected', () => {
-        logger.error(`db connected`);
+        logger.info(`db connected`);
     });
 }
 

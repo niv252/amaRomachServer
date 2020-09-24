@@ -1,29 +1,29 @@
-import { ProductDocument } from "../models/product.model";
-import { Product } from "../schemas/product.schema";
+import { Product } from "../models/product.model";
+import { ProductModel } from "../schemas/product.schema";
 import { startSession } from "mongoose";
 import { logger } from "../logger/logger";
 
-export const findAllProducts = (): Promise<ProductDocument[]> => {
-    return Product.find().exec();
+export const findAllProducts = (): Promise<Product[]> => {
+    return ProductModel.find().exec();
 }
 
-export const findProductById = (id: string): Promise<ProductDocument> => {
-    return Product.findById(id).exec();
+export const findProductById = (id: string): Promise<Product> => {
+    return ProductModel.findById(id).exec();
 }
 
-export const saveProduct = (product: ProductDocument): Promise<ProductDocument> => {
-    return new Product(product).save();
+export const saveProduct = (product: Product): Promise<Product> => {
+    return new ProductModel(product).save();
 }
 
-export const findAndUpdateProduct = (product: ProductDocument): Promise<ProductDocument> => {
-    return Product.findByIdAndUpdate(product._id, product, {new: true}).exec();    
+export const findAndUpdateProduct = (product: Product): Promise<Product> => {
+    return ProductModel.findByIdAndUpdate(product._id, product, {new: true}).exec();    
 }
 
-export const removeProduct = (id: string): Promise<ProductDocument> => {
-    return Product.findByIdAndRemove(id).exec();
+export const removeProduct = (id: string): Promise<Product> => {
+    return ProductModel.findByIdAndRemove(id).exec();
 }
 
-export const saveProducts = async (products: ProductDocument[]): Promise<ProductDocument[]> => {
+export const saveProducts = async (products: Product[]): Promise<Product[]> => {
     const session = await startSession();
     session.startTransaction();
     try {
