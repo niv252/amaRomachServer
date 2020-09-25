@@ -11,13 +11,15 @@
       "dom",
       "es2015",
       "esnext.asynciterable"
-    ]
+    ],
+    "resolveJsonModule": true
   },
   "files": [
-    "../../../node_modules/@types/node/index.d.ts"
+    "./node_modules/@types/node/index.d.ts"
   ],
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "configuration/*.json"
   ],
   "exclude": [
     "node_modules"

@@ -1,0 +1,15 @@
+{
+    "port": 3000,
+    "db": {
+        "uri": "mongodb+srv://tamir:tamir@tamirrrrr.625cx.mongodb.net/tamir?retryWrites=true&w=majority",
+        "options" : {
+            "useNewUrlParser": true,
+            "useUnifiedTopology": true,
+            "useFindAndModify": false,
+            "serverSelectionTimeoutMS": 10000
+        }
+    },
+    "logger": {
+        "logLevel": "info"
+    }
+}
